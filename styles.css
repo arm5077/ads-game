@@ -1,0 +1,17 @@
+body {
+
+}
+
+.block {
+	background-color: red;
+	width: 200px;
+	height: 100px;
+	position: fixed;
+}
+
+.player {
+	width: 40px;
+	height: 40px;
+	background-color: blue;
+	position: fixed;
+}
