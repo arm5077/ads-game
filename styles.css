@@ -1,17 +1,300 @@
-body {
+@import url(https://fonts.googleapis.com/css?family=Press+Start+2P);
+@import url(http://cdn.theatlantic.com/assets/static/common/fonts/proxima-nova.css);
+@import url(http://cdn.theatlantic.com/assets/static/common/fonts/lyon.css);
+@import url(http://cdn.theatlantic.com/assets/static/common/fonts/rajdhani.css);
 
+
+.flashing {
+  animation: blink-animation .5s steps(5, start) infinite;
+  -webkit-animation: blink-animation .5s steps(5, start) infinite;
 }
+@keyframes blink-animation {
+  to {
+	background-color: red;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    background-color: red;
+  }
+}
+
+.hidden {
+	display: none;
+}
+
+.center {
+	text-align: center;
+}
+
+body {
+	text-select: noselect;
+	width: 100%;
+	height: 100%;
+	background-color: #fefefe;
+	padding: 0;
+	margin: 0;
+	font-family: "Press Start 2P", sans-serif;
+}
+
+.controls {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	z-index:3;
+}
+
+	.controls .left, .controls .right {
+		font-size: 40pt;
+		padding: 10px;
+	}
+	
+	.controls .left {
+		float: left;
+	}
+	
+	.controls .right {
+		float: right;
+	}
+
+.popup {
+	width: 100%;
+	font-size: 20pt;
+	text-align: center;
+	position: fixed;
+	z-index: 2;
+	top: 25%;
+	transition: .5s all;
+	opacity: 1;
+	padding-top: 0px;
+	text-align: center;
+}
+
+	.popup.hidden {
+		display:block;
+		padding-top: 50px;
+		opacity: 0;
+	}
+	
+	
+.titlecard {
+	font-family: "Press Start 2P", sans-serif;
+	min-width: 300px;
+	width: 90%;
+	max-width: 650px;
+	position: fixed;
+	z-index: 2;
+	text-align: center;
+	background-color: #333;
+	color: white;
+	padding: 60px 30px;
+}
+
+
+	.titlecard .banner {
+		font-size: 50pt;
+		text-align: center;
+		text-transform: uppercase;
+		max-width: 500px;
+		margin: auto;
+	}
+
+	.titlecard .banner .smaller {
+		font-size: 24pt;
+	}
+	
+	.titlecard p, .titlecard li {
+		font-size: 10pt;
+		margin: 30px 0px;
+		line-height: 1.5em;
+		text-align: left;
+	}
+	
+	.titlecard ul {
+		text-align: left;
+		margin-bottom: 40px;
+	}
+	
+	.titlecard li {
+		margin-bottom: 10px;
+		list-style-type: block;
+	}
+
+	.titlecard .button, .titlecard a {
+		font-size: 16pt;
+		cursor: pointer;
+		display: inline-block;
+		padding-bottom: 5px;
+		border-bottom: 5px solid rgba(255,255,255,0);		
+		text-decoration: none;
+		color: inherit;
+		margin-bottom: 10px;
+	}
+	
+		.titlecard .button:hover, .titlecard a:hover {
+			border-color: rgba(255,255,255,1);
+		}
+		
+		.titlecard a #twitter {
+			color: #55acee;
+			border-color: #55acee;
+		}
+
+
 
 .block {
 	background-color: red;
-	width: 200px;
-	height: 100px;
 	position: fixed;
+	text-align: center;
+}
+
+	.block.pac {
+		background-color: #FDB913;
+	}
+
+	.block.r {
+		background-color: #DE1C24;
+	}
+	
+	.block.d {
+		background-color: #2585E4;
+	}
+	
+	
+.block img {
+	margin: auto;
+	position: relative;
+	border-radius: 50%;
+}
+
+	.block.pac img {
+		display: none;
+	}
+	
+.block .text {
+	font-family: "Press Start 2P", Rajdhani, sans-serif;
+	color: white;
+	text-transform: uppercase;
+	display: none;
+	font-size: 7pt;
+}
+	
+.block.pac .text {
+	display: inline-block;
 }
 
 .player {
-	width: 40px;
-	height: 40px;
-	background-color: blue;
+	width: 300px;
+	height: 300px;
 	position: fixed;
+}
+
+
+	.player.shrinking {
+			transition: width .25s, height .25s, top .25s, left .25s ;
+	}
+
+.header {
+	font-family: "Press Start 2P", Rajdhani, sans-serif;
+	position: fixed;
+	top: 0px;
+	left: 0;
+	width: 98%;
+	background-color: #333;
+	color: white;
+	padding: 10px 1%;
+	z-index: 2;
+}
+
+.face {
+	display: inline-block;
+	margin-left: 5px;
+	height: 20px;
+}
+
+.progress {
+	float: right;
+	font-family: "Press Start 2P", Rajdhani, sans-serif;
+}
+
+.annoyance {
+	float: left;
+}
+
+.line {
+	height: 50px;
+	background-color: #f2f2f2;
+	line-height: 50px;
+	width: 98%;
+	position: fixed;
+	left: 0;
+	font-family: "Press Start 2P", Rajdhani, sans-serif;
+	padding-bottom: 5px;
+	padding: 0 1%;
+	z-index: -1;
+	font-size: 10pt;
+}
+
+.line .left {
+	float: left;
+}
+
+.line .right {
+	float: right;
+}
+
+.danger-zone {
+	width: 100%;
+	height: 5%;
+	position: fixed;
+	bottom: 0;
+	z-index: 2;
+}
+
+.network {
+	position: fixed;
+	bottom: 0;
+	text-align: center;
+	font-size: 8pt;
+	color: #aaa;
+	padding-bottom: 5px;
+}
+
+@media screen and (max-width: 700px) {
+
+	.titlecard .banner {
+		font-size: 22pt;
+	}
+
+}
+
+@media screen and (max-width: 600px) {
+	
+	.annoyance { float: none}
+	.progress { float: none; margin-top: 7px }
+	.footer { display: none }
+	
+	.titlecard { min-width: 0px }
+	
+	.titlecard p, .titlecard li {
+		font-size: 8pt;
+	}
+	
+	.titlecard li {
+		margin: 5px;
+	}
+	
+	.titlecard .button {
+		font-size: 12pt;
+	}  
+
+#fullscreen { display: none }
+
+	.line { display: none }
+
+	.popup {
+		font-size: 12pt;
+	}
+
 }

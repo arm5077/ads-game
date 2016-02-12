@@ -7,21 +7,91 @@
 	<!-- D3.js -->
 	<script src="bower_components/d3/d3.min.js"></script>
 	
+	<!-- Moment -->
+	<script src="bower_components/moment/moment.js"></script>
+	<script src="bower_components/moment-timezone/builds/moment-timezone-with-data.js"></script>
+	
+	<!-- Screenfull -->
+	<script src="bower_components/screenfull/dist/screenfull.min.js"></script>
+	
 	<!-- Styles -->
 	<link href="styles.css" rel="stylesheet" />
 	
 </head>
 <body>
 
+<div class="mobile controls hidden">
+	<div class="control left">&#8678;</div>
+	<div class="control right">&#8680;</div>
+</div>
 
-<div class="player" style="top: 200px; left: 150px"></div>
+<div class="titlecard" id="titlecard">
+	<div id="intro" class="section">
+		<div class="banner">
+			<div class="smaller">Super Campaign</div>
+			<div>Dodger</div>
+		</div>
+	
+		<p class="center">A game by The Atlantic's Politics & Policy team</p>
+		<div class="button" hide="intro" show="begin">Begin</div>
+	</div>
+	
+	<div id="begin" class="section hidden">
+		<p>You are an Iowa voter in the days before the caucuses. Your job is to avoid as many campaign ads as possible lest you disengage from democracy out of annoyance.</p>
+	
+		<ul>
+			<li>Use arrow keys to move and avoid ads.</li>
+			<li>The spacebar will slow down time, but tax your patience. </li>
+		 	<li>Getting pulled to the bottom is also bad.</li>
+		</ul>
 
-<div class="block" style="top: 600px; left: 100px"></div>
+		<div class="button" id="fullscreen">Play fullscreen (recommended)</div>
+		<div class="button" id="start" hide="titlecard">Play in this window</div>
+	</div>
+	
+	<div id="about"></div>
+	
+	<div id="lost" class="section hidden">
+		<h1>Game over!</h1>
+		<p>Overwhelmed, you turn off the TV. You're irritable and annoyed. You might not even vote!!!</p>
+		<p>You lasted <span class="elapsed"></span> and unwillingly watched <span class="count"></span> ads.</p>
+		<div>		
+			<a href="" id="tweet" target="blank">Tweet your weariness</a>
+		</div>
+		<div class="button" id="start" hide="titlecard">Try again</div>
+		
+	</div>
+	
+</div>
 
+<div class="popup hidden"></div>
+
+<div class="header">
+	<div class= "annoyance">Annoyance: <span class="number"></span></div>
+	<div class="progress">Progress: <span class="number"></span>%</div>
+
+</div>
+
+
+
+
+<img class="player" style="top: 200px; left: 150px" src="img/couchbro.svg"></div>
+
+<div class="danger-zone"></div>
+
+<div class="footer"></div>
 
 </body>
 
 <!-- My scripts -->
 <script src="app.js"></script>
+
+<!-- Pym -->
+<script src="https://s3-us-west-2.amazonaws.com/nationaljournal/libraries/pym.js"></script>
+
+<script type="text/javascript">
+	var pymChild = new pym.Child();
+	setInterval(function(){ pymChild.sendHeight(); console.log("Sending pym ping!") }, 250);
+</script>
 
 </html>
