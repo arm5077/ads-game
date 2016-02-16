@@ -2,7 +2,7 @@
 <html>
 <head>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
 
 	<!-- D3.js -->
 	<script src="bower_components/d3/d3.min.js"></script>
@@ -20,9 +20,15 @@
 </head>
 <body>
 
-<div class="mobile controls hidden">
-	<div class="control left">&#8678;</div>
-	<div class="control right">&#8680;</div>
+<div class="controls hidden">
+	<div class="control left">
+		<div class="symbol">&laquo;</div>
+	</div>
+	<div class="control slow">&frac12;</div>
+	
+	<div class="control right">
+		<div class="symbol">&raquo;</div>
+	</div>
 </div>
 
 <div class="titlecard" id="titlecard">
@@ -41,8 +47,10 @@
 	
 		<ul>
 			<li>Use arrow keys to move and avoid ads.</li>
-			<li>The spacebar will slow down time, but tax your patience. </li>
+			<li class="desktop">The spacebar will slow down time, but tax your patience. </li>
 		 	<li>Getting pulled to the bottom is also bad.</li>
+			<li class="mobile">The &frac12; will slow down time for three seconds.</li>
+
 		</ul>
 
 		<div class="button" id="fullscreen">Play fullscreen (recommended)</div>
@@ -61,7 +69,19 @@
 		<div class="button" id="start" hide="titlecard">Try again</div>
 		
 	</div>
-	
+
+	<div id="won" class="section hidden">
+		<h1>You won!</h1>
+		<p>You've successfully lasted until the day of the caucuses without losing your faith in democracy. Now get ready for the canvassers!</p>
+		<p>You lasted <span class="elapsed"></span> and unwillingly watched <span class="count"></span> ads.</p>
+		<div>		
+			<a href="" id="tweet" target="blank">Tweet your success</a>
+			
+		</div>
+		<div class="button" id="start" hide="titlecard">Play again</div>
+		
+	</div>
+
 </div>
 
 <div class="popup hidden"></div>

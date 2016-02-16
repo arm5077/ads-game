@@ -15,18 +15,102 @@ penalties = {
 },
 times = {
 	start: "2016-01-30T20:30:00Z",
-	end: "2016-01-31T23:59:59Z",
+	end: "2016-01-31T23:00:00Z",
 	gridStart: "2016-01-30T20:30:00Z"
 }
 
 keys = { 
 	key37: "goingLeft", 
 	key39: "goingRight", 
-	key38: "goingUp", 
-	key40: "goingDown" 
+//	key38: "goingUp", 
+//	key40: "goingDown" 
 }, 
 messages = [
 
+	{
+		time: "2016-01-30T20:45:00Z",
+		message: "Easy peasy, right?"
+	},
+	{
+		time: "2016-01-30T21:30:00Z",
+		message: "First hour done!"
+	},
+	{
+		time: "2016-01-30T22:30:00Z",
+		message: "Second hour done!"
+	},
+	{
+		time: "2016-01-30T22:30:00Z",
+		message: "You may think this is easy..."
+	},
+	{
+		time: "2016-01-30T23:30:00Z",
+		message: "...but I'm about to feel bad for you."
+	},
+	{
+		time: "2016-01-31T00:00:00Z",
+		message: "Here it comes..."
+	},
+	{
+		time: "2016-01-31T01:05:00Z",
+		message: "That was tougher, wasn't it?"
+	},
+	{
+		time: "2016-01-31T02:30:00Z",
+		message: "Yawnnnn..."
+	},
+	{
+		time: "2016-01-31T04:00:00Z",
+		message: "Here comes trouble..."
+	},
+	{
+		time: "2016-01-31T05:30:00Z",
+		message: "Getting a little faster, isn't it?"
+	},
+	{
+		time: "2016-01-31T07:30:00Z",
+		message: "Feels quieter than it was at midnight..."
+	},
+	{
+		time: "2016-01-31T09:30:00Z",
+		message: "Gather your strength. You'll need it!"
+	},
+	{
+		time: "2016-01-31T10:00:00Z",
+		message: "You're halfway done!"
+	},
+	{
+		time: "2016-01-31T10:50:00Z",
+		message: "OK, I admit this is boring..."
+	},
+	{
+		time: "2016-01-31T11:30:00Z",
+		message: "The noon rush is coming..."
+	},
+	{
+		time: "2016-01-31T12:45:00Z",
+		message: "You're an ad buyer's nightmare!"
+	},
+	{
+		time: "2016-01-31T14:00:00Z",
+		message: "Get ready for some loooong ads!"
+	},
+	{
+		time: "2016-01-31T16:30:00Z",
+		message: "You're &frac34; of the way there!"
+	},
+	{
+		time: "2016-01-31T18:30:00Z",
+		message: "Just gotta make it through prime time!"
+	},
+	{
+		time: "2016-01-31T20:00:00Z",
+		message: "Victory is only four hours away!"
+	},
+	{
+		time: "2016-01-31T22:30:00Z",
+		message: "I can't believe you've made it this far!!"
+	}	
 ]
 grid = [],
 networks = [],
@@ -52,13 +136,13 @@ if( window.innerWidth <= 500 )
 console.log(resolution)
 
 if( resolution == "mobile")
-	totalDistance = 100000;
+	totalDistance = 80000;
 
 // Set up keypress events
 d3.select(window).on("keydown", function(){
 	// If spacebar
 	if( d3.event.keyCode == 32){
-		speed.current = speed.low;
+		d3.event.preventDefault();
 		slowmo = true;
 	}	
 	else
@@ -69,7 +153,6 @@ d3.select(window).on("keydown", function(){
 d3.select(window).on("keyup", function(){
 	// If spacebar
 	if( d3.event.keyCode == 32){
-		speed.current = speed.high;
 		slowmo = false;
 	}
 	else
@@ -80,10 +163,24 @@ d3.select(window).on("keyup", function(){
 
 d3.selectAll(".control").on("touchstart", function(){
 	console.log("boooo");
+
+	// If left arrow
 	if( d3.select(this).attr("class").indexOf("left") != -1 )
 		movement[keys["key37"]] = true;
-	else 
+
+	// If right arrow
+	else if(d3.select(this).attr("class").indexOf("right") != -1)
 		movement[keys["key39"]] = true;
+
+	// If slow motion 
+	else if(slowmo == false){
+		slowmo = true;
+		d3.select(this).classed("blinking", true);
+		setTimeout(function(){
+			slowmo = false
+			d3.select(".slow").classed("blinking", false)
+		},3000);
+	}
 })
 
 d3.selectAll(".control").on("touchend", function(){
@@ -143,6 +240,12 @@ d3.json("data/sponsors.json", function(err, sponsors){
 			else
 				playerSpeed = .004 * window.innerWidth;
 			
+			// Make player move slowmo, if button depressed
+			if(slowmo)
+				speed.current = speed.low;
+			else
+				speed.current = speed.high;
+			
 			// Recharge annoyance/patience
 			if(annoyance.current > 0)
 				annoyance.current -= .2
@@ -158,6 +261,12 @@ d3.json("data/sponsors.json", function(err, sponsors){
 				}
 					
 			});
+			
+			// Check to see if they've won
+			if( distanceTraveled >= totalDistance ){
+				lost = false;
+				finishGame();
+			}
 
 			// Check to see if they're run out of patience
 //			console.log(moment(y.invert(distanceTraveled)).toDate());
@@ -283,8 +392,8 @@ d3.json("data/sponsors.json", function(err, sponsors){
 					.classed("flashing", false)
 			}
 				
-			// Penalize player if slowmo
-			if( slowmo ){
+			// Penalize player if slowmo (though disable this for mobile)
+			if( slowmo && screen != "mobile" ){
 				annoyance.current += penalties.slowmo;
 			}
 				
@@ -381,7 +490,7 @@ d3.json("data/sponsors.json", function(err, sponsors){
 		}, 20);
 
 		function startGame(){
-			times.start = "2016-01-31T00:00:00Z";
+			times.start = "2016-01-30T20:30:00Z";
 			times.end = "2016-01-31T23:00:00Z";
 			times.gridStart = "2016-01-30T20:30:00Z";
 			
@@ -403,6 +512,14 @@ d3.json("data/sponsors.json", function(err, sponsors){
 					.style("width", window.innerHeight * .08 + "px")
 					.style("left", ( window.innerWidth - (window.innerHeight * .08) ) / 2 + "px")
 					.style("top", top)
+					
+				// Size the player smaller if we're on mobile
+				if( screen == "mobile")
+					d3.select(".player")
+						.style("height", "30px")
+						.style("width", "30px")
+						.style("left", ( window.innerWidth - 30 ) / 2 + "px")
+						.style("top", top)
 					
 					setTimeout(function(){
 						d3.select(".player").classed("shrinking", false);
@@ -428,6 +545,13 @@ d3.json("data/sponsors.json", function(err, sponsors){
 				low: 5 
 			};
 			
+			if( resolution == "mobile" )
+				speed = {
+					current: 6,
+					high: 6,
+					low: 3
+				}
+			
 			annoyance = {
 				current: 0,
 				max: 1000,
@@ -448,8 +572,7 @@ d3.json("data/sponsors.json", function(err, sponsors){
 		
 			// Reduce amount on mobile
 			if( resolution == "mobile"){
-				console.log("mobile")
-				networks = networks.splice(0,4);
+				networks = networks.splice(0,6);
 			 	ads = ads.filter(function(ad){
 					if( networks.map(function(d){ return d.network }).indexOf(ad.network) == -1)
 						return false;
@@ -513,7 +636,10 @@ d3.json("data/sponsors.json", function(err, sponsors){
 		
 		function finishGame(){
 			started = false;
-			switchTitlecard("lost");
+			if(lost)
+				switchTitlecard("lost");
+			else
+				switchTitlecard("won")
 			
 			// Turn off arrows
 			d3.select(".controls").classed("hidden", true);
@@ -531,9 +657,9 @@ d3.json("data/sponsors.json", function(err, sponsors){
 			else 
 				hours += " hours";
 				
-			d3.select(".titlecard #lost .count").text(commercials);
-			d3.select(".titlecard #lost .elapsed").text(hours);
-			d3.select(".titlecard #lost #tweet").attr("href", "https://twitter.com/intent/tweet?text=I tried to avoid campaign ads in @TheAtlantic's arcade game and made it " + hours + "!");
+			d3.selectAll(".titlecard .count").text(commercials);
+			d3.selectAll(".titlecard .elapsed").text(hours);
+			d3.select(".titlecard #tweet").attr("href", "https://twitter.com/intent/tweet?text=I dodged campaign ads in @TheAtlantic's arcade game and made it through " + hours + "! http://www.theatlantic.com/politics/archive/2016/02/super-campaign-dodger/462531/");
 			
 			d3.select(".titlecard")
 				.classed("hidden", false)
